@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard de medicamentos</title>
+  <link rel="stylesheet" href="/css/crud-dashboard.css" />
+</head>
+<body>
+  <main class="wrap">
+    <a class="back-link" href="/index.html">← Voltar para o painel principal</a>
+    <h1>Dashboard de medicamentos</h1>
+    <p class="sub">Cadastro, listagem, edição e exclusão de medicamentos em uma única tela.</p>
+
+    <section class="api-box">
+      <h2>Endpoints</h2>
+      <div class="api-list">
+        <button class="api-endpoint" type="button" data-endpoint="POST /api/medicamentos"><code>POST /api/medicamentos</code><span class="copy-label">Copiar</span></button>
+        <button class="api-endpoint" type="button" data-endpoint="GET /api/medicamentos"><code>GET /api/medicamentos</code><span class="copy-label">Copiar</span></button>
+        <button class="api-endpoint" type="button" data-endpoint="PUT /api/medicamentos/{id}"><code>PUT /api/medicamentos/{id}</code><span class="copy-label">Copiar</span></button>
+        <button class="api-endpoint" type="button" data-endpoint="DELETE /api/medicamentos/{id}"><code>DELETE /api/medicamentos/{id}</code><span class="copy-label">Copiar</span></button>
+      </div>
+    </section>
+
+    <form id="formMed" class="panel">
+      <h2>Novo medicamento</h2>
+
+      <div class="grid-2">
+        <div>
+          <label for="nome">Nome *</label>
+          <input type="text" id="nome" required />
+        </div>
+        <div>
+          <label for="ean">EAN (8 a 14 dígitos) *</label>
+          <input type="text" id="ean" required minlength="8" maxlength="14" pattern="[0-9]{8,14}" inputmode="numeric" />
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <label for="dosagemValor">Dosagem (valor) *</label>
+          <input type="text" id="dosagemValor" required pattern="[0-9]+([\\.,][0-9]+)?" />
+        </div>
+        <div>
+          <label for="dosagemUM">Dosagem (unidade) *</label>
+          <input type="text" id="dosagemUM" required />
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <label for="categoria">Categoria *</label>
+          <select id="categoria" required>
+            <option value="">-</option>
+            <option>GENERICO</option>
+            <option>SIMILAR</option>
+            <option>REFERENCIA</option>
+          </select>
+        </div>
+        <div>
+          <label for="classeTerapeutica">Classe terapêutica *</label>
+          <input type="text" id="classeTerapeutica" required />
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <label for="formaFarmaceutica">Forma farmacêutica *</label>
+          <select id="formaFarmaceutica" required>
+            <option value="">-</option>
+            <option>COMPRIMIDO</option>
+            <option>CAPSULA</option>
+            <option>XAROPE</option>
+            <option>INJETAVEL</option>
+            <option>POMADA</option>
+            <option>CREME</option>
+            <option>GEL</option>
+            <option>GOTAS</option>
+            <option>SUPOSITORIO</option>
+            <option>INALADOR</option>
+            <option>ADESIVO</option>
+          </select>
+        </div>
+        <div>
+          <label for="tarja">Tarja *</label>
+          <select id="tarja" required>
+            <option value="">-</option>
+            <option>TARJA_PRETA</option>
+            <option>TARJA_VERMELHA</option>
+            <option>TARJA_AMARELA</option>
+            <option>SEM_TARJA</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <label class="check-inline"><input type="checkbox" id="prescricao" /> Exige prescrição</label>
+        </div>
+        <div>
+          <label for="status">Status *</label>
+          <select id="status" required>
+            <option value="">-</option>
+            <option value="true">Ativo</option>
+            <option value="false">Inativo</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <label for="precoVenda">Preço de venda *</label>
+          <input type="number" id="precoVenda" min="0" step="0.01" required />
+        </div>
+        <div>
+          <label for="laboratorioId">ID do laboratório</label>
+          <input type="number" id="laboratorioId" min="1" step="1" />
+        </div>
+      </div>
+
+      <label for="observacoes">Observações</label>
+      <textarea id="observacoes" rows="3"></textarea>
+
+      <div class="checks-row">
+        <label class="check-inline"><input type="checkbox" id="anvisaRegular" /> Registro ANVISA regular</label>
+        <label class="check-inline"><input type="checkbox" id="pfp" /> Programa Farmácia Popular (PFP)</label>
+      </div>
+
+      <div class="toolbar">
+        <button type="submit" class="btn-primary">Cadastrar medicamento</button>
+        <button type="button" class="btn-secondary" id="btnLimpar">Limpar formulário</button>
+        <button type="button" class="btn-secondary" id="btnAtualizar">Atualizar listagem</button>
+      </div>
+    </form>
+
+    <div id="msg"></div>
+
+    <div class="toolbar">
+      <input type="text" id="filtro" placeholder="Filtrar por nome, EAN, categoria, tarja, forma, laboratório..." />
+      <span></span>
+      <span></span>
+    </div>
+
+    <section class="panel table-panel">
+      <h2>Medicamentos cadastrados</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>EAN</th>
+            <th>Dosagem</th>
+            <th>Categoria</th>
+            <th>Classe terapêutica</th>
+            <th>Forma</th>
+            <th>Tarja</th>
+            <th>Prescrição</th>
+            <th>ANVISA</th>
+            <th>Preço</th>
+            <th>Status</th>
+            <th>PFP</th>
+            <th>Laboratório</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div id="empty" class="empty" style="display:none">Nenhum medicamento encontrado.</div>
+    </section>
+  </main>
+
+  <dialog id="editDialog">
+    <form id="editForm" method="dialog" class="dialog-form">
+      <h2>Editar medicamento</h2>
+      <input type="hidden" id="editId" />
+
+      <div class="grid-2">
+        <div>
+          <label for="editNome">Nome *</label>
+          <input type="text" id="editNome" required />
+        </div>
+        <div>
+          <label for="editEan">EAN *</label>
+          <input type="text" id="editEan" required />
+        </div>
+      </div>
+      <div class="grid-2">
+        <div>
+          <label for="editDosagemValor">Dosagem valor *</label>
+          <input type="text" id="editDosagemValor" required />
+        </div>
+        <div>
+          <label for="editDosagemUM">Dosagem unidade *</label>
+          <input type="text" id="editDosagemUM" required />
+        </div>
+      </div>
+      <div class="grid-2">
+        <div>
+          <label for="editCategoria">Categoria *</label>
+          <select id="editCategoria" required>
+            <option>GENERICO</option>
+            <option>SIMILAR</option>
+            <option>REFERENCIA</option>
+          </select>
+        </div>
+        <div>
+          <label for="editClasseTerapeutica">Classe terapêutica *</label>
+          <input type="text" id="editClasseTerapeutica" required />
+        </div>
+      </div>
+      <div class="grid-2">
+        <div>
+          <label for="editFormaFarmaceutica">Forma farmacêutica *</label>
+          <select id="editFormaFarmaceutica" required>
+            <option>COMPRIMIDO</option>
+            <option>CAPSULA</option>
+            <option>XAROPE</option>
+            <option>INJETAVEL</option>
+            <option>POMADA</option>
+            <option>CREME</option>
+            <option>GEL</option>
+            <option>GOTAS</option>
+            <option>SUPOSITORIO</option>
+            <option>INALADOR</option>
+            <option>ADESIVO</option>
+          </select>
+        </div>
+        <div>
+          <label for="editTarja">Tarja *</label>
+          <select id="editTarja" required>
+            <option>TARJA_PRETA</option>
+            <option>TARJA_VERMELHA</option>
+            <option>TARJA_AMARELA</option>
+            <option>SEM_TARJA</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div>
+          <label class="check-inline"><input type="checkbox" id="editPrescricao" /> Exige prescrição</label>
+        </div>
+        <div>
+          <label for="editStatus">Status *</label>
+          <select id="editStatus" required>
+            <option value="true">Ativo</option>
+            <option value="false">Inativo</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div>
+          <label for="editPrecoVenda">Preço de venda *</label>
+          <input type="number" id="editPrecoVenda" min="0" step="0.01" required />
+        </div>
+        <div>
+          <label for="editLaboratorioId">ID do laboratório</label>
+          <input type="number" id="editLaboratorioId" min="1" step="1" />
+        </div>
+      </div>
+      <label for="editObservacoes">Observações</label>
+      <textarea id="editObservacoes" rows="3"></textarea>
+      <div class="checks-row">
+        <label class="check-inline"><input type="checkbox" id="editAnvisaRegular" /> Registro ANVISA regular</label>
+        <label class="check-inline"><input type="checkbox" id="editPfp" /> Programa Farmácia Popular (PFP)</label>
+      </div>
+      <div class="dialog-actions">
+        <button type="button" class="btn-secondary" id="btnCancelarEdicao">Cancelar</button>
+        <button type="submit" class="btn-primary">Salvar alterações</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="/js/dashboard-medicamentos.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Farmacia - Painel principal</title>
+  <link rel="stylesheet" href="/css/dashboard.css" />
+</head>
+<body>
+  <main class="wrap">
+    <h1>Painel principal</h1>
+    <p class="sub">
+      Selecione um dashboard para gerenciar os dados da aplicação. A partir de cada área você acessa
+      cadastro, edição e exclusão dos respectivos registros.
+    </p>
+    <section class="api-box">
+      <h2>Caminhos principais da API</h2>
+      <div class="api-list">
+        <button class="api-endpoint" type="button" data-endpoint="POST /api/medicamentos">
+          <code>POST /api/medicamentos</code>
+          <span class="copy-label">Copiar</span>
+        </button>
+        <button class="api-endpoint" type="button" data-endpoint="GET /api/medicamentos">
+          <code>GET /api/medicamentos</code>
+          <span class="copy-label">Copiar</span>
+        </button>
+        <button class="api-endpoint" type="button" data-endpoint="POST /api/laboratorios">
+          <code>POST /api/laboratorios</code>
+          <span class="copy-label">Copiar</span>
+        </button>
+        <button class="api-endpoint" type="button" data-endpoint="GET /api/laboratorios">
+          <code>GET /api/laboratorios</code>
+          <span class="copy-label">Copiar</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="cards">
+      <a class="card-link" href="/dashboard-medicamentos.html">
+        <h2>Dashboard de medicamentos</h2>
+        <p>Fluxo completo de cadastro, edição e deleção de medicamentos.</p>
+      </a>
+
+      <a class="card-link" href="/dashboard-laboratorios.html">
+        <h2>Dashboard de laboratórios</h2>
+        <p>Gestão completa de laboratórios com operações de cadastro, edição e deleção.</p>
+      </a>
+    </section>
+  </main>
+  <script>
+    async function copiarEndpoint(texto, botao) {
+      try {
+        await navigator.clipboard.writeText(texto);
+        const antigo = botao.querySelector(".copy-label").textContent;
+        botao.querySelector(".copy-label").textContent = "Copiado";
+        setTimeout(() => {
+          botao.querySelector(".copy-label").textContent = antigo;
+        }, 1200);
+      } catch (err) {
+        window.alert("Não foi possível copiar automaticamente. Endpoint: " + texto);
+      }
+    }
+
+    document.querySelectorAll(".api-endpoint").forEach((btn) => {
+      btn.addEventListener("click", () => copiarEndpoint(btn.dataset.endpoint, btn));
+    });
+  </script>
+</body>
+</html>

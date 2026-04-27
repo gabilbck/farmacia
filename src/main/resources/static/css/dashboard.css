@@ -1,0 +1,134 @@
+:root {
+  --bg: #0f1419;
+  --panel: #1a2332;
+  --border: #2d3a4d;
+  --text: #e8eef5;
+  --muted: #8b9cb3;
+  --accent: #3d9cf0;
+  --accent-hover: #5cb0ff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem;
+}
+
+h1 { margin: 0 0 0.4rem; font-size: 1.35rem; }
+
+.sub {
+  color: var(--muted);
+  margin: 0 0 1rem;
+  line-height: 1.5;
+}
+
+.api-box {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.api-box h2 {
+  margin: 0 0 0.55rem;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.api-box ul {
+  margin: 0;
+  padding-left: 1rem;
+}
+
+.api-box li {
+  margin: 0.3rem 0;
+}
+
+.api-list {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.api-endpoint {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: #121a26;
+  color: var(--text);
+  border-radius: 8px;
+  padding: 0.6rem 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-size: 0.86rem;
+}
+
+.api-endpoint:hover {
+  border-color: var(--accent);
+}
+
+.copy-label {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0.8rem;
+}
+
+.card-link {
+  display: block;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  border-radius: 10px;
+  padding: 1rem;
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.card-link:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.card-link h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+}
+
+.card-link p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 0.9rem;
+  color: var(--text);
+  background: var(--border);
+  border-radius: 8px;
+  padding: 0.4rem 0.7rem;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.back-link:hover {
+  background: #3a4a60;
+}
