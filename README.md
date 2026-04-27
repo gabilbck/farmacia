@@ -31,7 +31,7 @@ Pré-requisitos:
 Comandos:
 
 ```bash
-git clone <URL_DO_SEU_REPOSITORIO>
+git clone https://github.com/gabilbck/farmacia
 cd farmacia
 docker compose down
 docker compose up -d --build
