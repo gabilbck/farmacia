@@ -143,8 +143,7 @@ Erros:
 
 ## Medicamentos
 
-### POST `/api/medicamentos` (tambem aceita `/api/medicamentos/cadMed`)
-Cria um medicamento.
+### POST `/api/medicamentos`
 
 Request body:
 
@@ -225,7 +224,7 @@ Erros:
 - `404` se o ID nao existir
 - `500` para erro inesperado
 
-### PUT `/api/medicamentos/{id}` (tambem aceita `/api/medicamentos/updMed/{id}`)
+### PUT `/api/medicamentos/{id}`
 Atualiza medicamento por ID (apenas campos enviados sao alterados).
 
 Request body (exemplo parcial):
@@ -243,7 +242,7 @@ Erros:
 - `404` se o ID nao existir ou `laboratorioId` informado nao existir
 - `500` para erro inesperado
 
-### DELETE `/api/medicamentos/{id}` (tambem aceita `/api/medicamentos/delMed/{id}`)
+### DELETE `/api/medicamentos/{id}`
 Remove medicamento por ID e retorna o registro removido.
 
 Response `200`: medicamento removido.
