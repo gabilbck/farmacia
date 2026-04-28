@@ -9,4 +9,6 @@ import java.util.List;
 public interface MedicamentoRepository extends JpaRepository<Medicamento, Long> {
     @Query("select m from Medicamento m left join fetch m.laboratorio")
     List<Medicamento> findAllWithLaboratorio();
+
+    boolean existsByLaboratorio_Id(Long laboratorioId);
 }

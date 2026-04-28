@@ -35,9 +35,10 @@ public class MedicamentoController {
     }
 
     private Laboratorio buscarLab(Long labId) {
-        if (labId == null) return null;
         return laboratorioRepository.findById(labId)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Laboratório não encontrado com ID: " + labId));
+                .orElseThrow(() -> new RecursoNaoEncontradoException(
+                        "Não existe laboratório cadastrado com o ID " + labId
+                                + ". Omita o campo laboratorioId para gravar sem laboratório ou informe um ID válido."));
     }
 
     /** Preenche a entidade Medicamento a partir do DTO de requisição */
@@ -57,8 +58,9 @@ public class MedicamentoController {
         if (dto.getStatus() != null) med.setStatus(dto.getStatus());
         if (dto.getObservacoes() != null) med.setObservacoes(dto.getObservacoes());
 
-        if (dto.getLaboratorioId() != null) {
-            med.setLaboratorio(buscarLab(dto.getLaboratorioId()));
+        Long labId = dto.getLaboratorioId();
+        if (labId != null && labId > 0) {
+            med.setLaboratorio(buscarLab(labId));
         }
     }
 

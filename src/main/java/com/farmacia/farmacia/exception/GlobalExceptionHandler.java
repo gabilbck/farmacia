@@ -23,6 +23,14 @@ public class GlobalExceptionHandler {
                 .body(new ErroResponseDTO(404, "Não encontrado", ex.getMessage()));
     }
 
+    // 409 - operação inválida por integridade / regra de negócio
+    @ExceptionHandler(OperacaoNaoPermitidaException.class)
+    public ResponseEntity<ErroResponseDTO> handleOperacaoNaoPermitida(OperacaoNaoPermitidaException ex) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErroResponseDTO(409, "Conflito", ex.getMessage()));
+    }
+
     // 400 - JSON malformado ou enum inválido no body
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErroResponseDTO> handleJsonInvalido(HttpMessageNotReadableException ex) {

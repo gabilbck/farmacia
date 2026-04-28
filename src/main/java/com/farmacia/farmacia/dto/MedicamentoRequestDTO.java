@@ -6,7 +6,6 @@ import com.farmacia.farmacia.enums.FormaFarmaceutica;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -64,7 +63,7 @@ public class MedicamentoRequestDTO {
 
     private String observacoes;
 
-    @Positive(message = "laboratorioId deve ser maior que zero")
+    /** Opcional: omita ou use null para gravar sem laboratório. O banco só é consultado se o valor for maior que zero. */
     private Long laboratorioId;
 
 }

@@ -2,9 +2,11 @@ package com.farmacia.farmacia.controller.api;
 
 import com.farmacia.farmacia.dto.LaboratorioRequestDTO;
 import com.farmacia.farmacia.dto.LaboratorioResponseDTO;
+import com.farmacia.farmacia.exception.OperacaoNaoPermitidaException;
 import com.farmacia.farmacia.exception.RecursoNaoEncontradoException;
 import com.farmacia.farmacia.model.Laboratorio;
 import com.farmacia.farmacia.repository.LaboratorioRepository;
+import com.farmacia.farmacia.repository.MedicamentoRepository;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +19,13 @@ import java.util.List;
 public class LaboratorioController {
 
     private final LaboratorioRepository repository;
+    private final MedicamentoRepository medicamentoRepository;
 
-    public LaboratorioController(LaboratorioRepository repository) {
+    public LaboratorioController(
+            LaboratorioRepository repository,
+            MedicamentoRepository medicamentoRepository) {
         this.repository = repository;
+        this.medicamentoRepository = medicamentoRepository;
     }
 
     private Laboratorio buscarPorId(Long id) {
@@ -88,7 +94,13 @@ public class LaboratorioController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        repository.delete(buscarPorId(id));
+        Laboratorio lab = buscarPorId(id);
+        if (medicamentoRepository.existsByLaboratorio_Id(id)) {
+            throw new OperacaoNaoPermitidaException(
+                    "Não é possível excluir o laboratório: existem medicamentos vinculados a ele. "
+                            + "Exclua ou altere esses medicamentos antes de remover o laboratório.");
+        }
+        repository.delete(lab);
         return ResponseEntity.noContent().build();
     }
 }
