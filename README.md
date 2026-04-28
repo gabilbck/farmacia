@@ -73,30 +73,6 @@ mvnw.cmd spring-boot:run
 
 A documentação completa da API está em `API.md`.
 
-## Teste rápido com curl (1 minuto)
-
-Use os comandos abaixo em outro terminal (com a API já rodando):
-
-```bash
-# 1) Criar laboratório
-curl -X POST http://localhost:8080/api/laboratorios \
-  -H "Content-Type: application/json" \
-  -d "{\"cnpj\":\"12345678000190\",\"razaoSocial\":\"Laboratorio Exemplo SA\",\"nomeFantasia\":\"Lab Exemplo\",\"status\":true}"
-
-# 2) Listar laboratórios (pegue o id retornado)
-curl http://localhost:8080/api/laboratorios
-
-# 3) Criar medicamento (ajuste laboratorioId conforme o id criado)
-curl -X POST http://localhost:8080/api/medicamentos \
-  -H "Content-Type: application/json" \
-  -d "{\"ean\":\"7891234567890\",\"nome\":\"Dipirona\",\"dosagemValor\":\"500\",\"dosagemUM\":\"mg\",\"categoria\":\"GENERICO\",\"classeTerapeutica\":\"Analgesico\",\"formaFarmaceutica\":\"COMPRIMIDO\",\"prescricao\":false,\"tarja\":\"SEM_TARJA\",\"anvisaRegular\":true,\"pfp\":false,\"precoVenda\":12.90,\"status\":true,\"observacoes\":\"Uso adulto\",\"laboratorioId\":1}"
-
-# 4) Listar medicamentos
-curl http://localhost:8080/api/medicamentos
-```
-
-No PowerShell, se o alias `curl` conflitar, use `curl.exe` no lugar de `curl`.
-
 ## Instruções Docker
 
 Arquivos disponíveis:
