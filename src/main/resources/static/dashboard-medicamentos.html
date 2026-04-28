@@ -32,14 +32,14 @@
         </div>
         <div>
           <label for="ean">EAN (8 a 14 dígitos) *</label>
-          <input type="text" id="ean" required minlength="8" maxlength="14" pattern="[0-9]{8,14}" inputmode="numeric" />
+          <input type="text" id="ean" required minlength="8" maxlength="14" pattern="[0-9]{8,14}" inputmode="numeric" autocomplete="off" />
         </div>
       </div>
 
       <div class="grid-2">
         <div>
           <label for="dosagemValor">Dosagem (valor) *</label>
-          <input type="text" id="dosagemValor" required pattern="[0-9]+([\\.,][0-9]+)?" />
+          <input type="text" id="dosagemValor" class="input-num-text" inputmode="decimal" autocomplete="off" required />
         </div>
         <div>
           <label for="dosagemUM">Dosagem (unidade) *</label>
@@ -110,11 +110,11 @@
       <div class="grid-2">
         <div>
           <label for="precoVenda">Preço de venda *</label>
-          <input type="number" id="precoVenda" min="0" step="0.01" required />
+          <input type="text" id="precoVenda" class="input-num-text" inputmode="decimal" autocomplete="off" required />
         </div>
         <div>
           <label for="laboratorioId">ID do laboratório</label>
-          <input type="number" id="laboratorioId" min="1" step="1" />
+          <input type="text" id="laboratorioId" class="input-num-text" inputmode="numeric" autocomplete="off" />
         </div>
       </div>
 
@@ -180,14 +180,14 @@
           <input type="text" id="editNome" required />
         </div>
         <div>
-          <label for="editEan">EAN *</label>
-          <input type="text" id="editEan" required />
+          <label for="editEan">EAN (8 a 14 dígitos) *</label>
+          <input type="text" id="editEan" required minlength="8" maxlength="14" pattern="[0-9]{8,14}" inputmode="numeric" autocomplete="off" />
         </div>
       </div>
       <div class="grid-2">
         <div>
           <label for="editDosagemValor">Dosagem valor *</label>
-          <input type="text" id="editDosagemValor" required />
+          <input type="text" id="editDosagemValor" class="input-num-text" inputmode="decimal" autocomplete="off" required />
         </div>
         <div>
           <label for="editDosagemUM">Dosagem unidade *</label>
@@ -250,11 +250,11 @@
       <div class="grid-2">
         <div>
           <label for="editPrecoVenda">Preço de venda *</label>
-          <input type="number" id="editPrecoVenda" min="0" step="0.01" required />
+          <input type="text" id="editPrecoVenda" class="input-num-text" inputmode="decimal" autocomplete="off" required />
         </div>
         <div>
           <label for="editLaboratorioId">ID do laboratório</label>
-          <input type="number" id="editLaboratorioId" min="1" step="1" />
+          <input type="text" id="editLaboratorioId" class="input-num-text" inputmode="numeric" autocomplete="off" />
         </div>
       </div>
       <label for="editObservacoes">Observações</label>
